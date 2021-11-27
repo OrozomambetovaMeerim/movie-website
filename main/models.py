@@ -21,3 +21,33 @@ class Movie(models.Model):
         verbose_name_plural = 'Фильмы'
         ordering = ['name']
 
+
+class Genre(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    url = models.SlugField(max_length=160, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class Meta:
+    verbose_name = 'жанр'
+    verbose_name_plural = 'жанры'
+
+
+
+class Reviews(models.Model):
+    name = models.CharField(max_length=60)
+    email = models.EmailField()
+    text = models.TextField()
+    parent = models.ForeignKey(
+        'self', verbose_name='Родитель', 
+        on_delete=models.SET_NULL, blank=True, null=True)
+    movie = models.ForeignKey(Movie, verbose_name='фильм', on_delete=models.CASCADE)
+
+def __str__(self):
+    return f"{self.name} - {self.movie}"
+
+class Meta:
+    verbose_name = 'Отзыв'
+    verbose_name_plural = 'Отзывы'
