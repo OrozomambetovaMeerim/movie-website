@@ -33,6 +33,7 @@ class Genre(models.Model):
 class Meta:
     verbose_name = 'жанр'
     verbose_name_plural = 'жанры'
+    ordering = ['name']
 
 
 
@@ -51,3 +52,20 @@ def __str__(self):
 class Meta:
     verbose_name = 'Отзыв'
     verbose_name_plural = 'Отзывы'
+    ordering = ['name']
+
+
+class News(models.Model):
+    title = models.CharField(max_length=100)
+    text = models.TextField()
+    author = models.CharField(max_length=60)
+    movie = models.ForeignKey(Movie, verbose_name='фильм', on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.name
+
+class Meta:
+    verbose_name = 'Новость'
+    verbose_name_plural = 'Новости'
+    ordering = ['name']
