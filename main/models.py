@@ -25,7 +25,6 @@ class Movie(models.Model):
 class Genre(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    url = models.SlugField(max_length=160, unique=True)
 
     def __str__(self):
         return self.name
