@@ -22,6 +22,3 @@ def contact(request):
 def base(request):
     return render(request, "base.html")
 
-
-def test(request):
-    return render(request, "main/test.html")

@@ -26,7 +26,6 @@ urlpatterns = [
     path('rating/', rating, name="rating"),
     path('contact/', contact, name="contact"),
     path('base/', base, name="base"),
-    path('test/', test, name="test"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.DEBUG:
