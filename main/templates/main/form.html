@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block page %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ movie_form.as_p }}
+        <button>Сохранить</button>
+    </form>
+
+{% endblock %}
