@@ -27,6 +27,14 @@ urlpatterns = [
     path('contact/', contact, name="contact"),
     path('base/', base, name="base"),
     path('show/', show, name="show"),
+    path('movies/', movies, name='movies'),
+    path('create/', create_movie, name='create-movie'),
+    path('<int:id>/', movie, name='movie'),
+    path('<int:id>/edit/', edit_movie, name='edit-movie'),
+    path('<int:id>/delete', delete_movie, name='delete-movie'),
+    path('news/', news, name="news"),
+    path('kabar/', kabar, name="kabar"),
+    path('news_2/', news_2, name="news_2"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.DEBUG:
