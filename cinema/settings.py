@@ -25,7 +25,14 @@ SECRET_KEY = 'django-insecure-m6e%f3i!1^$g_-7!k%)7r2e+5qft9+vyov7@%d7b7)%t#n97k0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'meerimorozomambetova@gmail.com'
+# EMAIL_HOST_PASSWORD = 'kameta2022'
+# если используется защищенное соединение
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+]
 
 
 # Application definition
@@ -56,7 +63,7 @@ ROOT_URLCONF = 'cinema.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

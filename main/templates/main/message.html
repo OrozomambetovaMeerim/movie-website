@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзывы</title>
+    <style>
+        
+        .layer { 
+        border: 2px solid darkblue;
+        padding: 50px;
+    }
+    </style>
+    <meta name="description" content="Киномонстр - это портал о кино" />
+	<meta name="keywords" content="фильмы, фильмы онлайн, hd" />
+	<link rel="stylesheet" href="{% static 'assets/css/style.css' %}" /> 
+</head>
+<body> 
+    
+	<div class="main">
+		
+		<div class="header">
+			<div class="logo">
+				<div class="logo_text">
+					<h1><a href="{% url 'home' %}">КиноМонстр</a></h1>
+					<h2>Кино - наша страсть!</h2>
+				</div>
+			</div>
+			
+			<div class="menubar">
+				
+				<ul class="menu">
+					<li class="selected"><a href="{% url 'home' %}">Главная</a></li>	
+					<li><a href="{% url 'films' %}">Фильмы</a></li>
+					<li><a href="{% url 'rating' %}">Рейтинг фильмов</a></li>
+					<li><a href="{% url 'contact' %}">Отзывы</a></li>
+				</ul>
+
+			</div>
+
+		</div>
+</head>
+<body>
+    <form action="{% url 'reviews' %}" method="get">
+    {% csrf_token %}
+    <h2>Отзывы пользователей:</h2>
+        {{ message_form.as_p }}
+    {% for message in message_form %}
+        <div>
+            <h3>{{ message.message }}</h3>
+            <h3>{{ message.author_name }}</h3>
+        </div>
+        <hr>
+    {% endfor %}
+    </form>
+    <div class="footer">
+        <p>
+            <a href="{% url 'home' %}">Главная</a> |
+            <a href="{% url 'films' %}">Фильмы</a> | 
+            <a href="{% url 'rating' %}">Рейтинг фильмов</a> |
+            <a href="{% url 'contact' %}">Отзывы</a>
+        </p>
+        <p>wh-db.com 2021</p>
+    </div>
+</body>
+</html>

@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from main.views import *
+from main.views import Search
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,6 +36,11 @@ urlpatterns = [
     path('news/', news, name="news"),
     path('kabar/', kabar, name="kabar"),
     path('news_2/', news_2, name="news_2"),
+    path('search/', search, name='search_field'),
+    # path('search/', Search.as_view(), name='search_field'),
+    # path('home/', HomePageView.as_view(), name='homepage'),
+    path('message/', message, name="reviews"),
+    path('<int:id>/get_message/', DialogsViews.as_view(), name='message'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.DEBUG:

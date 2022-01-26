@@ -1,5 +1,5 @@
 from django import forms
-from .models import Movie
+from .models import Movie, Message
 # from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 
 # from .models import Reviews, Rating, RatingStar
@@ -34,3 +34,15 @@ class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
         fields = ['img', 'description']
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField()
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['message', 'author_name']
+    
+
