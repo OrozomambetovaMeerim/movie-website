@@ -41,8 +41,8 @@
 				
 				<div class="sidebar">
 					<h2>Поиск</h2>
-					<form method="post" action="#" id="search_form" >
-						<input type="search" name="search_field" placeholder="ваш запрос" />
+					<form method="get" action="{% url 'search_field' %}" id="id">
+						<input type="text" name="q" placeholder="ваш запрос" />
 						<input type="submit" class="btn" value="найти" />
 					</form>
 				</div>

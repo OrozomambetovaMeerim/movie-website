@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.fields import CharField
+from django.utils import timezone
+
 
 
 class Movie(models.Model):
@@ -97,3 +101,18 @@ class Rating(models.Model):
         verbose_name_plural = "Рейтинги"
 
 
+class Message(models.Model):
+    author_name = models.CharField(max_length=80)
+    email = CharField(max_length=60)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    
+    class Meta:
+        verbose_name = 'отзыв'
+        verbose_name_plural = 'Отзывы'
+        ordering = ['message']
+
+    def __str__(self):
+            return self.message
