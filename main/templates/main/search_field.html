@@ -49,10 +49,11 @@
   <h3>Результаты поиска:<strong> {{ query }} </strong></h3>   
   
 {% if movies %}
-    <p>Found {{ movie.name }}</p>
+    <p>{{ movie.name }}</p>
     <ul>
       {% for movie in movies %}
         <li>{{ movie.description }}</li>
+        <li>{{ movie.genre }}</li>
       {% endfor %}
     </ul>
 {% else %}

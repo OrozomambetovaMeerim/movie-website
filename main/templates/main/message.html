@@ -47,7 +47,7 @@
     {% csrf_token %}
     <h2>Отзывы пользователей:</h2>
         {{ message_form.as_p }}
-    {% for message in message_form %}
+    {% for messages in message_form %}
         <div>
             <h3>{{ message.message }}</h3>
             <h3>{{ message.author_name }}</h3>
