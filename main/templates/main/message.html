@@ -44,7 +44,9 @@
 </head>
 <body>
     <form action="{% url 'reviews' %}" method="get">
-    {% csrf_token %}
+    <!-- <form action="{% url 'contact' %}" method="get"> -->
+
+        {% csrf_token %}
     <h2>Отзывы пользователей:</h2>
         {{ message_form.as_p }}
     {% for messages in message_form %}
@@ -54,6 +56,7 @@
         </div>
         <hr>
     {% endfor %}
+    <input class="btn" type="submit" value="отправить">
     </form>
     <div class="footer">
         <p>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 from main.models import *
 from .forms import MovieForm, MessageForm, SearchForm
 from django.views.generic import TemplateView, ListView, View
@@ -21,14 +21,17 @@ def rating(request):
 
 
 def contact(request):
+    submitted = False
     if request.method == "POST":
        message_form = MessageForm(request.POST)
        if message_form.is_valid():
-           message_form.save()
-           return redirect(message)
-
-    message_form = MessageForm()
-    return render(request, "main/contact.html")
+            message_form.save()
+            return HttpResponseRedirect('/contact?submitted=True')
+    else:
+        message_form = MessageForm
+        if 'submitted' in request.GET:
+            submitted = True
+    return render(request, "main/contact.html", {'message_form': message_form, 'submitted': submitted})
 
 
 def base(request):
@@ -45,39 +48,39 @@ def movies(request):
     return render(request, 'main/index.html', {'movies': movie_objects})
 
 
-def create_movie(request):
-    if request.method == "POST":
-       movie_form = MovieForm(request.POST)
-       if movie_form.is_valid():
-           movie_form.save()
-           return redirect(movies)
+# def create_movie(request):
+#     if request.method == "POST":
+#        movie_form = MovieForm(request.POST)
+#        if movie_form.is_valid():
+#            movie_form.save()
+#            return redirect(movies)
 
-    movie_form = MovieForm()
-    return render(request, 'main/form.html', {'movie_form': movie_form})
+#     movie_form = MovieForm()
+#     return render(request, 'main/form.html', {'movie_form': movie_form})
 
 
-def movie(request, id):
-    try:
-        movie_object = Movie.objects.get(id=id)
-        return render(request, 'main/films.html', {'movie_object': movie_object})
-    except Movie.DoesNotExist as e:
-        return HttpResponse(f'Not found: {e}', status=404)
+# def movie(request, id):
+#     try:
+#         movie_object = Movie.objects.get(id=id)
+#         return render(request, 'main/films.html', {'movie_object': movie_object})
+#     except Movie.DoesNotExist as e:
+#         return HttpResponse(f'Not found: {e}', status=404)
 
-def edit_movie(request, id):
-    movie_object = Movie.objects.get(id=id)
+# def edit_movie(request, id):
+#     movie_object = Movie.objects.get(id=id)
 
-    if request.method == 'POST':
-        movie_form = MovieForm(data=request.POST, instance=movie_object)
-        if movie_form.is_valid():
-            movie_form.save()
-            return redirect(movie, id=id)
-    movie_form = MovieForm(instance=movie_object)
-    return render(request, 'main/form.html', {'movie_object': movie_object})
+#     if request.method == 'POST':
+#         movie_form = MovieForm(data=request.POST, instance=movie_object)
+#         if movie_form.is_valid():
+#             movie_form.save()
+#             return redirect(movie, id=id)
+#     movie_form = MovieForm(instance=movie_object)
+#     return render(request, 'main/form.html', {'movie_object': movie_object})
 
-def delete_movie(request, id):
-    movie_object = Movie.objects.get(id=id)
-    movie_object.delete()
-    return redirect(movies)
+# def delete_movie(request, id):
+#     movie_object = Movie.objects.get(id=id)
+#     movie_object.delete()
+#     return redirect(movies)
 
 
 def news(request):
@@ -103,19 +106,6 @@ class Search(ListView):
             Q(name__icontains= 'q')
         )
             
-            # name=self.request.GET.get('q'))
-
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super().get_context_data(self, *args, **kwargs)
-    #     context['q'] = self.request.GET.get('q')
-    #     return context
-
-    #     query = self.request.GET.get('q')
-    #     object_list = Movie.objects.filter(
-    #         Q(name__icontains= query)
-    #     )
-    #     return object_list
-
 
 
 def search(request):
@@ -128,25 +118,27 @@ def search(request):
         return HttpResponse('Такого фильма нет.')
 
 
-# def search(request):
-#     search_query = request.GET.get('q', '')
-#     if search_query:
-#         movie = Movie.objects.filter(Q(description__icontains=search_query))
-#     else:
-#         movie = Movie.objects.all()
-#         return render(request, 'main/search_field.html', {'movie': movie, 'query': q})
-
 
     #Сообщение
 def message(request):
-    if request.method == "POST":
-       message_form = MessageForm(request.POST)
-       if message_form.is_valid():
-           message_form.save()
-           return redirect(contact)
+    if request.method == "GET":
+        message_form = MessageForm(request.GET)
+        if message_form.is_valid():
+            message_form.save()
+            return redirect(message)
 
     message_form = MessageForm()
     return render(request, 'main/message.html', {'message_form': message_form})
+
+
+
+    
+# def message(request):
+#     if request.method == "GET":
+#         message_form = MessageForm(request.GET)
+#         message_form.is_favorite = True
+#         message_form.save()
+#         return render(request, 'main/message.html', {'message_form': message_form})
 
 
 
@@ -163,6 +155,9 @@ def message(request):
 #         return render(request, 'main/message.html', {'get': letter})
 
 class DialogsViews(View):
+    model = Message
+    template_name = "message.html"
+
     def get(self, request):
         message = Message.objects.get(id=id)
         return render(request, 'main/message.html', {'get': message})

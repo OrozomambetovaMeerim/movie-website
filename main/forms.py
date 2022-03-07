@@ -43,6 +43,6 @@ class SearchForm(forms.Form):
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['message', 'author_name']
+        fields = ['message', 'email', 'author_name']
     
 
